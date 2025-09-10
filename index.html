@@ -137,6 +137,32 @@
             text-align: center;
             padding: 30px;
         }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .video-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .video-item iframe {
+            width: 100%;
+            height: 160px;
+            border-radius: 10px;
+        }
+
+        .video-item p {
+            margin-top: 8px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -148,6 +174,8 @@
 
     <div class="container" id="mainContent">
         <h2>Jogos Musicais</h2>
+        <button onclick="openVideoModal()">📹 Vídeos de Aprendizado</button>
+        <button onclick="startTabGame()">🎻 Leitura de Tablatura (Violino)</button>
         <button onclick="startChallenge()">Desafio Musical</button>
         <button onclick="startTreasureHunt()">Caça ao Tesouro Musical</button>
 
@@ -195,6 +223,56 @@
         <div id="treasureFeedback"></div>
         <button onclick="closeTreasureHunt()" style="margin-top: 30px;">🔙 Voltar</button>
     </div>
+    <!-- Tela de Leitura de Tablatura -->
+    <div id="tabScreen" style="display: none; text-align: center; padding: 30px;">
+        <h1>🎻 Leitura de Tablatura (Violino)</h1>
+        <p>Toque a sequência certa de cordas e dedos!</p>
+        <div id="tabInstruction" style="font-size: 20px; margin: 20px 0;"></div>
+        <div id="stringButtons" style="display: flex; flex-direction: column; align-items: center; gap: 10px;"></div>
+        <div id="tabFeedback" style="margin-top: 20px; font-weight: bold;"></div>
+        <button onclick="backToMain()" style="margin-top: 30px;">🔙 Voltar</button>
+    </div>
+    <!-- Modal de Vídeos de Aprendizado -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <span class="close" onclick="closeVideoModal()">&times;</span>
+            <h3>Vídeos de Aprendizado e Fixação</h3>
+            <p>Assista aos vídeos abaixo para reforçar seus conhecimentos musicais:</p>
+
+            <div class="video-grid">
+                <div class="video-item">
+                    <iframe src="https://www.youtube.com/embed/YBKANHPtxR4
+" frameborder="0" allowfullscreen></iframe>
+                    <p>Aula 1: Introdução às Notas Musicais</p>
+                </div>
+                <div class="video-item">
+                    <iframe src=https://www.youtube.com/embed/fDjRBTI7t5I frameborder="0" allowfullscreen></iframe>
+                    <p>Aula 2: Leitura de Partitura</p>
+                </div>
+                <div class="video-item">
+                    <iframe src=https://www.youtube.com/embed/PVnbnMufHP8 frameborder="0" allowfullscreen></iframe>
+                    <p>Aula 3: Leitura de Partitura</p>
+                </div>
+                <div class="video-item">
+                    <iframe src=https://www.youtube.com/embed/O8AI8menEDw frameborder="0" allowfullscreen></iframe>
+                    <p>Aula 3: Prática com Violino</p>
+                </div>
+                <div class="video-item">
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID_3" frameborder="0" allowfullscreen></iframe>
+                    <p>Aula 4: Prática com Violino</p>
+                </div>
+                <div class="video-item">
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID_3" frameborder="0" allowfullscreen></iframe>
+                    <p>Aula 4: Prática com Violino</p>
+                </div>
+
+
+                <!-- Adicione mais vídeos aqui -->
+            </div>
+        </div>
+    </div>
+
+
 
     <script>
         // Variáveis globais
@@ -238,17 +316,53 @@
             utterance.rate = 0.9;
             synth.speak(utterance);
         }
-
-        // Tocar áudio da nota
         function playNoteAudio(note) {
-            const fileName = noteAudioFiles[note];
-            if (!fileName) {
-                console.error('Áudio para a nota', note, 'não encontrado.');
+            const file = noteAudioFiles[note];
+            if (!file) {
+                console.error('Arquivo de áudio não encontrado para a nota:', note);
                 return;
             }
+            const audio = new Audio(`audios/${file}`);
+            audio.play();
+        }
+
+
+
+
+        function playTabNote(string, finger) {
+            const audioMap = {
+                'G0': 'sol.mp3',
+                'G1': 'la.mp3',
+                'G2': 'si.mp3',
+                'G3': 'do.mp3',
+
+                'D0': 're.mp3',
+                'D1': 'mi.mp3',
+                'D2': 'fa.mp3',
+                'D3': 'sol.mp3',
+
+                'A0': 'la.mp3',
+                'A1': 'si.mp3',
+                'A2': 'do.mp3',
+                'A3': 're.mp3',
+
+                'E0': 'mi.mp3',
+                'E1': 'fa.mp3',
+                'E2': 'sol.mp3',
+                'E3': 'la.mp3'
+            };
+
+            const fileName = audioMap[`${string}${finger}`];
+            if (!fileName) {
+                console.error('Nota não encontrada:', string, finger);
+                return;
+            }
+
             const audio = new Audio(`audios/${fileName}`);
             audio.play();
         }
+
+
 
         // Tela do desafio
         function startChallenge() {
@@ -264,34 +378,38 @@
                 console.error('Lista de notas está vazia ou indefinida.');
                 return;
             }
-
             // Gera um índice aleatório
             const indexAleatorio = Math.floor(Math.random() * notes.length);
-
             // Pega a nota correspondente
             const notaSorteada = notes[indexAleatorio];
-
             // Atualiza a nota atual para verificação posterior
             currentNote = notaSorteada;
-
             // Toca o som da nota
             playNoteAudio(notaSorteada);
-
             // Limpa o feedback visual anterior
             clearFeedback();
         }
 
         // Verifica se acertou
-        function checkAnswer(note) {
-            const feedbackEl = document.getElementById('feedback');
-            if (note === currentNote) {
-                speak('Muito bem! Você acertou!');
-                feedbackEl.innerText = '🎉 Muito bem! Você acertou!';
-                feedbackEl.style.color = 'green';
+        function checkTabAnswer(string, finger) {
+            const expected = tablatureSequence[currentTabIndex];
+
+            if (string === expected.string && finger === expected.finger) {
+                playTabNote(string, finger); // Chame a função correta para tocar o som
+                speak(`Muito bem! ${string}${finger === 0 ? ' (corda solta)' : ` com dedo ${finger}`}`);
+                currentTabIndex++;
+
+                if (currentTabIndex >= tablatureSequence.length) {
+                    updateTabFeedback('🎉 Parabéns! Você completou a música!');
+                    document.getElementById('tabInstruction').innerText = '✅ Fim da sequência.';
+                } else {
+                    updateTabFeedback('✅ Correto! Próxima nota...');
+                    updateTabInstruction();
+                }
             } else {
+                const msg = finger === 0 ? 'corda solta' : `dedo ${finger}`;
+                updateTabFeedback(`❌ Ops! Não é ${string} com ${msg}.`);
                 speak('Tente novamente!');
-                feedbackEl.innerText = '❌ Tente novamente!';
-                feedbackEl.style.color = 'red';
             }
         }
 
@@ -303,8 +421,10 @@
 
         // Voltar para a tela principal
         function backToMain() {
-            document.getElementById('challengeScreen').style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('challengeScreen').style.display = 'none';
+            document.getElementById('treasureScreen').style.display = 'none';
+            document.getElementById('tabScreen').style.display = 'none';
             clearFeedback();
         }
 
@@ -367,8 +487,119 @@
                 grid.appendChild(box);
             }
         }
+        const tablatureSequence = [
+            { string: 'D', finger: 0 }, // D
+            { string: 'D', finger: 0 }, // D
+            { string: 'A', finger: 1 }, // B
+            { string: 'A', finger: 1 }, // B
+            { string: 'A', finger: 0 }, // A
+            { string: 'A', finger: 0 }, // A
+            { string: 'D', finger: 0 }  // D
+        ];
+
+        let currentTabIndex = 0;
+
+        function startTabGame() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('tabScreen').style.display = 'block';
+            currentTabIndex = 0;
+            updateTabInstruction();
+            updateTabFeedback('');
+            renderTabButtons();
+        }
+
+        function renderTabButtons() {
+            const container = document.getElementById('stringButtons');
+            container.innerHTML = '';
+
+            const strings = ['G', 'D', 'A', 'E'];
+            for (let string of strings) {
+                const row = document.createElement('div');
+                row.style.display = 'flex';
+                row.style.gap = '8px';
+
+                for (let finger = 0; finger <= 3; finger++) {
+                    const btn = document.createElement('button');
+                    btn.innerText = `${string}${finger}`;
+                    btn.onclick = () => checkTabAnswer(string, finger);
+                    btn.style.minWidth = '60px';
+                    btn.title = finger === 0 ? 'Corda Solta' : `Dedo ${finger}`;
+                    row.appendChild(btn);
+                }
+
+                container.appendChild(row);
+            }
+        }
+
+        function updateTabInstruction() {
+            const step = tablatureSequence[currentTabIndex];
+            const desc = step.finger === 0 ? 'corda solta' : `dedo ${step.finger}`;
+            document.getElementById('tabInstruction').innerText = `Toque: ${step.string} com ${desc}`;
+        }
+
+        function updateTabFeedback(msg) {
+            document.getElementById('tabFeedback').innerText = msg;
+        }
+        function checkTabAnswer(string, finger) {
+            const expected = tablatureSequence[currentTabIndex];
+
+            if (string === expected.string && finger === expected.finger) {
+                playTabNote(string, finger); // 👈 tocar som aqui
+                speak(`Muito bem! ${string}${finger === 0 ? ' (corda solta)' : ` com dedo ${finger}`}`);
+                currentTabIndex++;
+
+                if (currentTabIndex >= tablatureSequence.length) {
+                    updateTabFeedback('🎉 Parabéns! Você completou a música!');
+                    document.getElementById('tabInstruction').innerText = '✅ Fim da sequência.';
+                } else {
+                    updateTabFeedback('✅ Correto! Próxima nota...');
+                    updateTabInstruction();
+                }
+            } else {
+                const msg = finger === 0 ? 'corda solta' : `dedo ${finger}`;
+                updateTabFeedback(`❌ Ops! Não é ${string} com ${msg}.`);
+                speak('Tente novamente!');
+            }
+        }
+        function checkAnswer(userAnswer) {
+            if (!currentNote) {
+                console.warn('Nenhuma nota foi sorteada ainda.');
+                return;
+            }
+
+            const feedbackEl = document.getElementById('feedback');
+
+            if (userAnswer === currentNote) {
+                feedbackEl.innerText = `✅ Correto! Era ${currentNote}!`;
+                speak(`Muito bem! Você acertou. Era ${currentNote}!`);
+                currentNote = ''; // limpa para evitar repetições acidentais
+            } else {
+                feedbackEl.innerText = `❌ Errado! Tente novamente.`;
+                speak(`Ops! Não é ${userAnswer}. Tente novamente.`);
+            }
+        }
+        function openVideoModal() {
+            document.getElementById('videoModal').style.display = 'block';
+        }
+
+        function closeVideoModal() {
+            document.getElementById('videoModal').style.display = 'none';
+        }
+
+        // Fecha modal se clicar fora dele
+        window.addEventListener('click', function (event) {
+            const videoModal = document.getElementById('videoModal');
+            if (event.target === videoModal) {
+                closeVideoModal();
+            }
+        });
+
+
+
+
 
         // Tornando as funções acessíveis no escopo global para onclick inline
+        window.startTabGame = startTabGame;
         window.openModal = openModal;
         window.closeModal = closeModal;
         window.playNotes = playNotes;
