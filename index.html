@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Aprendizado Musical</title>
+    <link rel="icon" href="img/icon2.png" type="image/png" />
+    <style>
+        body {
+            font-family: 'Balsamiq Sans', 'Comic Sans MS', cursive, sans-serif;
+            padding: 20px;
+            background-color: #e0f7fa;
+            color: #004d40;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            color: #ff6f00;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            padding: 70px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        button {
+            display: block;
+            margin: 15px 0;
+            padding: 11px;
+            width: 100%;
+            font-size: 18px;
+            border-radius: 15px;
+            border: 2px solid #ff6f00;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        input {
+            background-color: #f1f8e9;
+        }
+
+        button {
+            background-color: #ffa000;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff6f00;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            color: #ff6f00;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #d32f2f;
+        }
+
+        .note-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            justify-items: center;
+            margin-top: 20px;
+        }
+
+        .treasure-box {
+            width: 80px;
+            height: 80px;
+            background-image: url('img/treasure-closed.jpeg');
+            background-size: cover;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border-radius: 12px;
+        }
+
+        .treasure-box.opened {
+            background-image: url('img/treasure-open.png');
+        }
+
+        #feedback,
+        #treasureFeedback {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #treasureScreen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #challengeScreen {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Aprendizado Musical</h1>
+    </header>
+
+    <div class="container" id="mainContent">
+        <h2>Jogos Musicais</h2>
+        <button onclick="startChallenge()">Desafio Musical</button>
+        <button onclick="startTreasureHunt()">Caça ao Tesouro Musical</button>
+
+        <h2>Atividades Interativas</h2>
+        <button onclick="openModal()">🎵 Aprimorar Notas Musicais</button>
+    </div>
+
+    <!-- Modal para Aprimorar Notas -->
+    <div id="notesModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Pratique as Notas Musicais!</h3>
+            <p>Clique no botão para ouvir e repetir as notas.</p>
+            <button onclick="playNotes()">🔊 Ouvir Notas</button>
+        </div>
+    </div>
+
+    <!-- Tela do Desafio Musical -->
+    <div id="challengeScreen">
+        <h1>🎶 Desafio Musical 🎶</h1>
+        <p>Ouça a nota e clique na nota correta!</p>
+        <button id="playNoteBtn" onclick="playRandomNote()">▶️ Ouvir Nota</button>
+
+        <div class="note-buttons"
+            style="margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+            <button onclick="checkAnswer('Dó')">Dó</button>
+            <button onclick="checkAnswer('Ré')">Ré</button>
+            <button onclick="checkAnswer('Mi')">Mi</button>
+            <button onclick="checkAnswer('Fá')">Fá</button>
+            <button onclick="checkAnswer('Sol')">Sol</button>
+            <button onclick="checkAnswer('Lá')">Lá</button>
+            <button onclick="checkAnswer('Si')">Si</button>
+        </div>
+
+        <div id="feedback"></div>
+        <br />
+        <button onclick="backToMain()">🔙 Voltar</button>
+    </div>
+
+    <!-- Tela da Caça ao Tesouro -->
+    <div id="treasureScreen">
+        <h1>🪙 Caça ao Tesouro Musical 🪙</h1>
+        <p>Encontre a nota escondida nos baús! 🔍</p>
+        <div id="noteGrid" class="note-grid"></div>
+        <div id="treasureFeedback"></div>
+        <button onclick="closeTreasureHunt()" style="margin-top: 30px;">🔙 Voltar</button>
+    </div>
+
+    <script>
+        // Variáveis globais
+        const notes = ['Dó', 'Ré', 'Mi', 'Fá', 'Sol', 'Lá', 'Si'];
+        let currentNote = '';
+
+        // Arquivos de áudio para as notas
+        const noteAudioFiles = {
+            'Dó': 'do.mp3',
+            'Ré': 're.mp3',
+            'Mi': 'mi.mp3',
+            'Fá': 'fa.mp3',
+            'Sol': 'sol.mp3',
+            'Lá': 'la.mp3',
+            'Si': 'si.mp3'
+        };
+
+        // Função para abrir o modal das notas
+        function openModal() {
+            document.getElementById('notesModal').style.display = 'block';
+        }
+
+        // Fechar modal
+        function closeModal() {
+            document.getElementById('notesModal').style.display = 'none';
+        }
+
+        // Fecha modal se clicar fora
+        window.onclick = function (event) {
+            const modal = document.getElementById('notesModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+
+        // Função para falar as notas em sequência
+        function playNotes() {
+            const synth = window.speechSynthesis;
+            const utterance = new SpeechSynthesisUtterance(notes.join(', '));
+            utterance.lang = 'pt-BR';
+            utterance.rate = 0.9;
+            synth.speak(utterance);
+        }
+
+        // Tocar áudio da nota
+        function playNoteAudio(note) {
+            const fileName = noteAudioFiles[note];
+            if (!fileName) {
+                console.error('Áudio para a nota', note, 'não encontrado.');
+                return;
+            }
+            const audio = new Audio(`audios/${fileName}`);
+            audio.play();
+        }
+
+        // Tela do desafio
+        function startChallenge() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('challengeScreen').style.display = 'block';
+            playRandomNote();
+            clearFeedback();
+        }
+
+        // Tocar nota aleatória e definir atual
+        function playRandomNote() {
+            if (!notes || notes.length === 0) {
+                console.error('Lista de notas está vazia ou indefinida.');
+                return;
+            }
+
+            // Gera um índice aleatório
+            const indexAleatorio = Math.floor(Math.random() * notes.length);
+
+            // Pega a nota correspondente
+            const notaSorteada = notes[indexAleatorio];
+
+            // Atualiza a nota atual para verificação posterior
+            currentNote = notaSorteada;
+
+            // Toca o som da nota
+            playNoteAudio(notaSorteada);
+
+            // Limpa o feedback visual anterior
+            clearFeedback();
+        }
+
+        // Verifica se acertou
+        function checkAnswer(note) {
+            const feedbackEl = document.getElementById('feedback');
+            if (note === currentNote) {
+                speak('Muito bem! Você acertou!');
+                feedbackEl.innerText = '🎉 Muito bem! Você acertou!';
+                feedbackEl.style.color = 'green';
+            } else {
+                speak('Tente novamente!');
+                feedbackEl.innerText = '❌ Tente novamente!';
+                feedbackEl.style.color = 'red';
+            }
+        }
+
+        // Limpa o feedback
+        function clearFeedback() {
+            const feedbackEl = document.getElementById('feedback');
+            feedbackEl.innerText = '';
+        }
+
+        // Voltar para a tela principal
+        function backToMain() {
+            document.getElementById('challengeScreen').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            clearFeedback();
+        }
+
+        // Fala texto com síntese de voz
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'pt-BR';
+            utterance.rate = 0.9;
+            speechSynthesis.speak(utterance);
+        }
+
+        // Caça ao Tesouro
+
+        function startTreasureHunt() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('challengeScreen').style.display = 'none';
+            document.getElementById('treasureScreen').style.display = 'flex';
+            setupTreasureGrid();
+            clearTreasureFeedback();
+        }
+
+        function closeTreasureHunt() {
+            document.getElementById('treasureScreen').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            clearTreasureFeedback();
+        }
+
+        function clearTreasureFeedback() {
+            document.getElementById('treasureFeedback').innerText = '';
+        }
+
+        function setupTreasureGrid() {
+            const grid = document.getElementById('noteGrid');
+            grid.innerHTML = '';
+
+            const hiddenNote = notes[Math.floor(Math.random() * notes.length)];
+            let found = false;
+
+            for (let i = 0; i < 6; i++) {
+                const box = document.createElement('div');
+                box.className = 'treasure-box';
+
+                box.onclick = () => {
+                    if (found || box.classList.contains('opened')) return;
+
+                    const isFound = Math.random() < 0.3; // 30% chance
+                    if (isFound) {
+                        box.classList.add('opened');
+                        speak(`Você encontrou a nota ${hiddenNote}!`);
+                        document.getElementById('treasureFeedback').innerText = `🎉 Você encontrou a nota ${hiddenNote}!`;
+                        playNoteAudio(hiddenNote);
+                        found = true;
+                    } else {
+                        speak(' Continue procurando!');
+
+                        document.getElementById('treasureFeedback').innerText = '❌ Nada aqui... tente outro!';
+                    }
+                };
+
+                grid.appendChild(box);
+            }
+        }
+
+        // Tornando as funções acessíveis no escopo global para onclick inline
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+        window.playNotes = playNotes;
+        window.startChallenge = startChallenge;
+        window.playRandomNote = playRandomNote;
+        window.checkAnswer = checkAnswer;
+        window.backToMain = backToMain;
+        window.startTreasureHunt = startTreasureHunt;
+        window.closeTreasureHunt = closeTreasureHunt;
+    </script>
+
+</body>
+
+</html>
