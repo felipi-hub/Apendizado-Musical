@@ -11,6 +11,18 @@
             padding: 20px;
             background-color: #e0f7fa;
             color: #004d40;
+
+            /* Adicionados para centralizar */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        html {
+            height: 100%;
         }
 
         h1,
@@ -22,7 +34,6 @@
 
         .container {
             max-width: 600px;
-            margin: auto;
             background-color: #fff;
             padding: 70px;
             border-radius: 20px;
@@ -71,17 +82,23 @@
             height: 100%;
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.4);
+
+            align-items: center;
+            justify-content: center;
+
+
         }
 
         .modal-content {
             background-color: #fff;
-            margin: auto;
             padding: 20px;
             border-radius: 20px;
             width: 90%;
             max-width: 450px;
             text-align: center;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+
         }
 
         .close {
@@ -162,6 +179,70 @@
             font-weight: bold;
             color: #333;
             text-align: center;
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 30px 20px;
+                width: 100%;
+            }
+
+            input,
+            button {
+                width: 100%;
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            h1,
+            h2 {
+                font-size: 22px;
+            }
+
+            .note-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .treasure-box {
+                width: 70px;
+                height: 70px;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .video-item iframe {
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            h1,
+            h2 {
+                font-size: 20px;
+            }
+
+            .treasure-box {
+                width: 60px;
+                height: 60px;
+            }
+
+            .video-item iframe {
+                height: 180px;
+            }
+
+            .note-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -292,7 +373,7 @@
 
         // Função para abrir o modal das notas
         function openModal() {
-            document.getElementById('notesModal').style.display = 'block';
+            document.getElementById('notesModal').style.display = 'flex';
         }
 
         // Fechar modal
@@ -579,7 +660,7 @@
             }
         }
         function openVideoModal() {
-            document.getElementById('videoModal').style.display = 'block';
+            document.getElementById('videoModal').style.display = 'flex';
         }
 
         function closeVideoModal() {
