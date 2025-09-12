@@ -9,10 +9,10 @@
         body {
             font-family: 'Balsamiq Sans', 'Comic Sans MS', cursive, sans-serif;
             padding: 20px;
-            background-color: #e0f7fa;
-            color: #004d40;
-
-            /* Adicionados para centralizar */
+            background-color: #f4f4f4;
+            /* Cor de fundo neutra */
+            color: #333;
+            /* Texto escuro suave */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -28,44 +28,50 @@
         h1,
         h2 {
             text-align: center;
-            color: #ff6f00;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            color: #00796b;
+            /* Verde escuro */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .container {
             max-width: 600px;
-            background-color: #fff;
-            padding: 70px;
-            border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            /* Branco */
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         input,
         button {
             display: block;
             margin: 15px 0;
-            padding: 11px;
+            padding: 12px;
             width: 100%;
-            font-size: 18px;
-            border-radius: 15px;
-            border: 2px solid #ff6f00;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            /* Ajuste de tamanho de fonte */
+            border-radius: 10px;
+            border: 2px solid #00796b;
+            /* Bordas verde escuro */
             transition: transform 0.2s, background-color 0.2s;
         }
 
         input {
-            background-color: #f1f8e9;
+            background-color: #e0f2f1;
+            /* Verde claro */
         }
 
         button {
-            background-color: #ffa000;
+            background-color: #009688;
+            /* Verde médio */
             color: white;
             font-weight: bold;
             cursor: pointer;
         }
 
         button:hover {
-            background-color: #ff6f00;
+            background-color: #00796b;
+            /* Verde escuro ao passar o mouse */
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
@@ -81,28 +87,23 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-
+            background-color: rgba(0, 0, 0, 0.5);
             align-items: center;
             justify-content: center;
-
-
         }
 
         .modal-content {
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 20px;
-            border-radius: 20px;
+            border-radius: 15px;
             width: 90%;
             max-width: 450px;
             text-align: center;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-
-
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .close {
-            color: #ff6f00;
+            color: #00796b;
             float: right;
             font-size: 28px;
             font-weight: bold;
@@ -111,6 +112,7 @@
 
         .close:hover {
             color: #d32f2f;
+            /* Vermelho para destaque */
         }
 
         .note-grid {
