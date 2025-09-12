@@ -48,8 +48,8 @@
             margin: 15px 0;
             padding: 12px;
             width: 100%;
-            font-size: 16px;
-            /* Ajuste de tamanho de fonte */
+            font-size: 18px;
+            /* Aumentado para melhor legibilidade */
             border-radius: 10px;
             border: 2px solid #00796b;
             /* Bordas verde escuro */
@@ -184,66 +184,83 @@
         }
 
         /* Responsividade para telas menores */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             body {
                 padding: 10px;
             }
 
             .container {
-                padding: 30px 20px;
+                padding: 40px 20px;
+                /* Aumentado para melhor conforto */
                 width: 100%;
             }
 
             input,
             button {
-                width: 100%;
-                font-size: 16px;
-                padding: 10px;
+                font-size: 18px;
+                /* Aumentado para melhor legibilidade */
+                padding: 15px;
+                /* Aumentado para melhor conforto */
             }
 
             h1,
             h2 {
-                font-size: 22px;
+                font-size: 24px;
+                /* Aumentado para melhor legibilidade */
             }
 
             .note-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
+                gap: 15px;
+                /* Aumentado para melhor espaçamento */
             }
 
             .treasure-box {
-                width: 70px;
-                height: 70px;
+                width: 80px;
+                /* Ajustado para melhor visualização */
+                height: 80px;
             }
 
             .modal-content {
                 width: 95%;
-                padding: 15px;
+                padding: 20px;
+                /* Aumentado para melhor conforto */
             }
 
             .video-item iframe {
-                height: 200px;
+                height: 220px;
+                /* Aumentado para melhor visualização */
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
 
             h1,
             h2 {
+                font-size: 22px;
+                /* Aumentado para melhor legibilidade */
+            }
+
+            input,
+            button {
                 font-size: 20px;
+                /* Aumentado para melhor legibilidade */
             }
 
             .treasure-box {
-                width: 60px;
-                height: 60px;
+                width: 70px;
+                /* Ajustado para melhor visualização */
+                height: 70px;
             }
 
             .video-item iframe {
-                height: 180px;
+                height: 500px;
+                /* Ajustado para melhor visualização */
             }
 
             .note-grid {
                 grid-template-columns: 1fr;
+                /* Mantido para telas pequenas */
             }
         }
     </style>
