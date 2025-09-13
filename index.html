@@ -9,7 +9,11 @@
         body {
             font-family: 'Balsamiq Sans', 'Comic Sans MS', cursive, sans-serif;
             padding: 20px;
-            background-color: #f4f4f4;
+            background-image: url('img/fundo-img.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             /* Cor de fundo neutra */
             color: #333;
             /* Texto escuro suave */
@@ -274,12 +278,13 @@
 
     <div class="container" id="mainContent">
         <h2>Jogos Musicais</h2>
-        <button onclick="openVideoModal()">📹 Vídeos de Aprendizado</button>
+
         <button onclick="startTabGame()">🎻 Leitura de Tablatura (Violino)</button>
         <button onclick="startChallenge()">Desafio Musical</button>
         <button onclick="startTreasureHunt()">Caça ao Tesouro Musical</button>
 
         <h2>Atividades Interativas</h2>
+        <button onclick="openVideoModal()">📹 Vídeos de Aprendizado</button>
         <button onclick="openModal()">🎵 Aprimorar Notas Musicais</button>
     </div>
 
