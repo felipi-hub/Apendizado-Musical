@@ -418,6 +418,35 @@
                             </div>
                         </div>
                     `
+                },
+                rhythm: {
+                    title: 'Ritmo Básico - Batidas e Pausas 🎵🥁',
+                    content: `
+        <div class="space-y-6">            
+            <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+                <h4 class="font-bold text-green-800 dark:text-green-200 mb-2">🎵 Semibreve</h4>
+                <p class="text-gray-700 dark:text-gray-300">
+                    A <strong>semibreve</strong> vale <strong>4 tempos</strong>. É uma nota longa que preenche um compasso inteiro.
+                    Conte assim: <em>1... 2... 3... 4...</em> mantendo o som contínuo.
+                </p>
+            </div>
+            <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+                <h4 class="font-bold text-yellow-800 dark:text-yellow-200 mb-2">🎶 Semínimas</h4>
+                <p class="text-gray-700 dark:text-gray-300">Cada batida vale <strong>1 tempo</strong>. Imagine um passo de dança simples: 1, 2, 3, 4...</p>
+            </div>
+            <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                <h4 class="font-bold text-blue-800 dark:text-blue-200 mb-2">🕐 Mínimas</h4>
+                <p class="text-gray-700 dark:text-gray-300">Valem <strong>2 tempos</strong>. São notas mais longas: “Tum... (espera) Tum...”</p>
+            </div>
+            <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
+                <h4 class="font-bold text-red-800 dark:text-red-200 mb-2">🤫 Pausas</h4>
+                <p class="text-gray-700 dark:text-gray-300">Silêncio também é ritmo! Aprenda a contar mesmo quando não se toca nada.</p>
+            </div>
+            <div class="text-center mt-4">
+                <button onclick="playClapPattern()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">👂 Ouvir Batida</button>
+            </div>
+        </div>
+    `
                 }
             };
 
@@ -446,6 +475,27 @@
         function closeLessonModal() {
             document.getElementById('lessonModal').classList.add('hidden');
         }
+        function playClapPattern() {
+            const pattern = ['👏', '👏', '🛑', '👏'];
+            let i = 0;
+
+            const audio = new Audio('https://www.soundjay.com/human/applause-01.mp3');
+
+            const interval = setInterval(() => {
+                const emoji = pattern[i];
+                showCustomAlert(`Batida: ${emoji}`);
+
+                if (emoji === '👏') {
+                    audio.currentTime = 0;
+                    audio.play();
+                }
+
+                i++;
+                if (i >= pattern.length) clearInterval(interval);
+            }, 4000);
+        }
+
+
 
         async function searchVideo() {
             const topic = document.getElementById('videoTopic').value.trim();
