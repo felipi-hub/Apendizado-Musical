@@ -521,9 +521,47 @@
       </div>
     </div>
   `
+                },
+                memory: {
+                    title: 'Exercícios de Memória 🧠',
+                    content: `
+    <div class="space-y-6">
+      <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg">
+        <h4 class="font-bold text-indigo-800 dark:text-indigo-200 mb-2">🧠 Técnicas para Memorizar Músicas</h4>
+        <p class="text-gray-700 dark:text-gray-300">
+          Memorizar músicas é uma habilidade essencial para tocar com mais confiança e liberdade.
+          Aqui estão algumas estratégias para melhorar sua memória musical:
+        </p>
+        <ul class="list-disc pl-5 mt-3 text-gray-700 dark:text-gray-300 space-y-1">
+          <li>Divida a música em pequenas seções e pratique uma de cada vez.</li>
+          <li>Toque de olhos fechados para fortalecer a memória muscular.</li>
+          <li>Repita trechos difíceis várias vezes até que soem naturais.</li>
+          <li>Ouça a música frequentemente para internalizar o som.</li>
+          <li>Tente cantar ou imaginar mentalmente a melodia antes de tocar.</li>
+        </ul>
+      </div>
+
+      <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+        <h4 class="font-bold text-green-800 dark:text-green-200 mb-2">📌 Dica de Prática</h4>
+        <p class="text-gray-700 dark:text-gray-300">
+          Experimente tocar a música de trás para frente — comece do final e vá voltando para o início.
+          Essa técnica ajuda a reforçar todos os trechos igualmente.
+        </p>
+      </div>
+
+      <div >
+        <button onclick="openLessonVideoModal('memory')"
+          class="px-6 py-2 bg-accent text-white rounded-lg hover:bg-accent/90">
+          📹 Solicitar Vídeo
+        </button>
+      </div>
+    </div>
+  `
                 }
 
             };
+
+
 
             const lesson = lessons[lessonType];
             title.textContent = lesson.title;
@@ -566,7 +604,8 @@
                     title: 'Tempo de Ritimo',
                     url: 'https://www.youtube.com/embed/QKf4PfNHA8g'
                 }
-            ], songs: [
+            ],
+            songs: [
                 {
                     title: 'Hino 304 - Sossegai',
                     url: 'https://www.youtube.com/embed/bCbQ2lBnKJw'
@@ -583,7 +622,26 @@
                     title: 'Hino 225 - Segura na mão de Deus',
                     url: 'https://www.youtube.com/embed/Zh3GctzxHIc'
                 }
+            ],
+            memory: [
+                {
+                    title: 'Como memorizar músicas no violino e viola de arco',
+                    url: 'https://www.youtube.com/embed/AHueZz4YAy4'
+                },
+                {
+                    title: 'Memorizar notas',
+                    url: 'https://www.youtube.com/embed/GNdQCKkptT4'
+                },
+                {
+                    title: 'Como memorizar músicas no violino e viola de arco',
+                    url: 'https://www.youtube.com/embed/XOHkjtvmzlU'
+                },
+                {
+                    title: 'Exercícios práticos de memória musical',
+                    url: 'https://www.youtube.com/embed/dq1obY_3NfI'
+                }
             ]
+
         };
 
         function openLessonVideoModal(lessonKey) {
