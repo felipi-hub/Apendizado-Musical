@@ -222,7 +222,7 @@
                 </div>
 
                 <div class="lesson-card card-hover bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700"
-                    onclick="openVideoLibrary()">
+                    onclick="openLesson('videosLibrary')">
                     <div class="flex items-center justify-between mb-4">
                         <h4 class="text-lg font-bold text-gray-800 dark:text-white">Biblioteca de Vídeos</h4>
                         <span class="text-2xl">📹</span>
@@ -557,11 +557,47 @@
       </div>
     </div>
   `
+                },
+                videosLibrary: {
+                    title: 'Biblioteca de Vídeos 📹',
+                    content: `
+    <div class="space-y-6">
+      <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg">
+        <h4 class="font-bold text-indigo-800 dark:text-indigo-200 mb-2">📚 Vídeos Educativos</h4>
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+          Assista a vídeos educativos e demonstrações para aprofundar seus estudos.
+        </p>
+
+        <div class="space-y-4">
+          <!-- Vídeo 1 -->
+          <div class="aspect-video">
+            <iframe class="w-full h-full rounded-lg" src="https://www.youtube.com/embed/quwNRrobCs8"
+              title="Vídeo 1" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <!-- Vídeo 2 -->
+          <div class="aspect-video">
+            <iframe class="w-full h-full rounded-lg" src="https://www.youtube.com/embed/AHueZz4YAy4"
+              title="Vídeo 2" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="aspect-video">
+            <iframe class="w-full h-full rounded-lg" src="https://www.youtube.com/embed/xImB3TCKNx4"
+              title="Vídeo 2" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="aspect-video">
+            <iframe class="w-full h-full rounded-lg" src="https://www.youtube.com/embed/JQiAEV2u0pY"
+              title="Vídeo 2" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="aspect-video">
+            <iframe class="w-full h-full rounded-lg" src="https://www.youtube.com/embed/H9ZDDmqtfME"
+              title="Vídeo 2" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
                 }
 
             };
-
-
 
             const lesson = lessons[lessonType];
             title.textContent = lesson.title;
@@ -681,7 +717,10 @@
 
 
         function openVideoLibrary() {
-            openVideoModal();
+
+            document.getElementById('videoLibraryModal').classList.remove('hidden');
+
+
         }
 
         function openVideoModal() {
