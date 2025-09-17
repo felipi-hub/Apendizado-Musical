@@ -83,7 +83,7 @@
         <!-- Header -->
         <header class="text-center mb-8">
             <div class="gradient-bg rounded-2xl p-8 text-white">
-                <h1 class="text-4xl font-bold mb-2">🎵 MusiLearn</h1>
+                <h1 class="text-4xl font-bold mb-2">🎵 Forminguinha Musical</h1>
                 <p class="text-xl opacity-90">Aprenda Violino e Viola de Arco de forma divertida!</p>
                 <div class="flex justify-center space-x-4 mt-4">
                     <span class="note text-2xl">🎼</span>
@@ -254,17 +254,31 @@
                 <div id="lessonContent" class="space-y-4">
                     <!-- Lesson content will be loaded here -->
                 </div>
-                <div class="mt-6 flex justify-between">
-                    <button onclick="requestVideoHelp()"
-                        class="px-6 py-2 bg-accent text-white rounded-lg hover:bg-accent/90">
-                        📹 Solicitar Vídeo
-                    </button>
+                <div class="mt-6 flex justify-between ">
                     <button onclick="completeLessonAndClose()"
                         class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">
                         Concluir Lição
                     </button>
                 </div>
             </div>
+            <!-- Modal de vídeos -->
+            <div id="videoModal"
+                class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden px-4 py-6">
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative shadow-lg">
+
+                    <!-- Botão fechar -->
+                    <button onclick="closeVideoModal()"
+                        class="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-2xl font-bold leading-none">&times;</button>
+
+                    <h2 class="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-100">Vídeos</h2>
+
+                    <div id="videoList" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Vídeos serão inseridos aqui via JS -->
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- Video Request Modal -->
@@ -312,6 +326,14 @@
                     <button onclick="searchVideo()"
                         class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">Buscar Vídeo</button>
                 </div>
+            </div>
+        </div>
+        <div id="videoModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div class="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full p-6 relative">
+                <button onclick="closeVideoModal()"
+                    class="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-2xl font-bold">&times;</button>
+                <h2 class="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-100">Vídeos da Lição</h2>
+                <div id="videoList" class="space-y-6"></div>
             </div>
         </div>
     </div>
@@ -391,6 +413,13 @@
                                 </ul>
                             </div>
                         </div>
+                        <div">
+                            <button onclick="requestVideoHelp()"
+                               class="mt-6 flex justify-between px-6 py-2 bg-accent text-white rounded-lg hover:bg-accent/90">
+                               📹 Solicitar Vídeo
+                            </button>  
+                        </div>                       
+                                          
                     `
                 },
                 notes: {
@@ -418,7 +447,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                                 <button onclick="openLessonVideoModal('notes')"
+                                 class="px-6 py-2 bg-accent text-white rounded-lg hover:bg-accent/90">
+                                  📹 Solicitar Vídeo
+                                 </button>
+                        </div>                     
                     `
                 },
                 rhythm: {
@@ -447,6 +480,9 @@
             <div class="text-center mt-4">
                 <button onclick="playClapPattern()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">👂 Ouvir Batida</button>
             </div>
+              <button onclick="openLessonVideoModal('rhythm')" class="px-6 py-2 bg-accent text-white rounded-lg hover:bg-accent/90">
+                📹 Solicitar Vídeo
+            </button>
         </div>
     `
                 }
@@ -457,6 +493,79 @@
             content.innerHTML = lesson.content;
             modal.classList.remove('hidden');
         }
+        const videoLibrary = {
+            notes: [
+                {
+                    title: 'Notas das cordas soltas no Violino',
+                    url: 'https://www.youtube.com/embed/7N2_bzay5lM'
+                },
+                {
+                    title: 'Notas das cordas soltas no Viola de arco',
+                    url: 'https://www.youtube.com/embed/Cbkf62f53lc'
+                },
+                {
+                    title: 'Primeiros sons no arco aberto',
+                    url: 'https://www.youtube.com/embed/bU0l3xrGVz4'
+                },
+                {
+                    title: 'Primeiros sons no arco aberto',
+                    url: 'https://www.youtube.com/embed/heEkWX95A_g'
+                }
+            ],
+            rhythm: [
+                {
+                    title: 'Entendendo Ritimo',
+                    url: 'https://www.youtube.com/embed/azR86fUQd64'
+                },
+                {
+                    title: 'Ritmo Seminima',
+                    url: 'https://www.youtube.com/embed/sX3u9vDqMgg'
+                },
+                {
+                    title: 'Leitura de partitura',
+                    url: 'https://www.youtube.com/embed/fDjRBTI7t5I'
+                },
+                {
+                    title: 'Tempo de Ritimo',
+                    url: 'https://www.youtube.com/embed/QKf4PfNHA8g'
+                }
+            ]
+        };
+        function openLessonVideoModal(lessonKey) {
+            const modal = document.getElementById('videoModal');
+            const videoList = document.getElementById('videoList');
+
+            const videos = videoLibrary[lessonKey] || [];
+
+            videoList.innerHTML = '';
+
+            if (videos.length === 0) {
+                videoList.innerHTML = `<p class="text-center text-red-500">Nenhum vídeo disponível para esta lição.</p>`;
+            }
+
+            videos.forEach(video => {
+                const card = document.createElement('div');
+                card.className = 'rounded-lg overflow-hidden shadow-md';
+
+                card.innerHTML = `
+      <h3 class="font-semibold mb-2 text-gray-800 dark:text-gray-200">${video.title}</h3>
+      <div class="aspect-w-16 aspect-h-9">
+        <iframe class="w-full rounded-lg"
+                src="${video.url}"
+                title="${video.title}"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+        </iframe>
+      </div>
+    `;
+
+                videoList.appendChild(card);
+            });
+
+            modal.classList.remove('hidden');
+        }
+
 
         function openVideoLibrary() {
             openVideoModal();
@@ -526,13 +635,56 @@
         }
 
         function requestVideoHelp() {
-            closeLesson();
             openVideoModal();
 
-            // Pre-fill with lesson-specific topic
-            const currentLesson = document.getElementById('lessonTitle').textContent;
-            document.getElementById('videoTopic').value = currentLesson;
+            const videoList = document.getElementById('videoList');
+
+            // Exemplo: array de vídeos (YouTube embed URLs e títulos)
+            const videos = [
+                {
+                    title: 'Postura Correta no Violino',
+                    url: 'https://www.youtube.com/embed/jIIrqEQ-XjU'
+                },
+                {
+                    title: 'Como Segurar o Arco',
+                    url: 'https://www.youtube.com/embed/LXwsAe5uL_g'
+                },
+                {
+                    title: 'Técnicas Básicas para Viola de arco',
+                    url: 'https://www.youtube.com/embed/O8AI8menEDw'
+                },
+                {
+                    title: 'Técnicas Básicas para Violino',
+                    url: 'https://www.youtube.com/embed/icBwnBLYkc4'
+                }
+            ];
+
+            // Limpa conteúdo antigo
+            videoList.innerHTML = '';
+
+            // Cria cards de vídeo
+            videos.forEach(video => {
+                const videoCard = document.createElement('div');
+                videoCard.className = 'rounded-lg overflow-hidden shadow-md';
+
+                videoCard.innerHTML = `
+      <h3 class="font-semibold mb-2 text-gray-800 dark:text-gray-200">${video.title}</h3>
+      <div class="aspect-w-16 aspect-h-9">
+        <iframe class="w-full h-48 rounded-lg" 
+                src="${video.url}" 
+                title="${video.title}" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+        </iframe>
+      </div>
+    `;
+
+                videoList.appendChild(videoCard);
+            });
         }
+
+
 
         function completeLessonAndClose() {
             completedLessons++;
