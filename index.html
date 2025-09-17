@@ -485,7 +485,44 @@
             </button>
         </div>
     `
+                },
+                songs: {
+                    title: 'Primeiras Músicas 🎶',
+                    content: `
+    <div class="space-y-6">
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+        <h4 class="font-bold text-yellow-800 dark:text-yellow-200 mb-2">🎵 Músicas simples para praticar</h4>
+        <p class="text-gray-700 dark:text-gray-300">
+          Agora que você já conhece as notas e o ritmo básico, é hora de começar a tocar músicas simples!
+          Praticar com melodias conhecidas ajuda a desenvolver a musicalidade e coordenação.
+        </p>
+        <ul class="list-disc pl-5 mt-3 text-gray-700 dark:text-gray-300">
+          <li>Use apenas cordas soltas nas primeiras músicas.</li>
+          <li>Toque devagar, prestando atenção na qualidade do som.</li>
+          <li>Repita várias vezes até tocar com segurança.</li>
+        </ul>
+      </div>
+
+      <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+        <h4 class="font-bold text-blue-800 dark:text-blue-200 mb-2">🎼 Sugestões de Músicas Iniciais</h4>
+        <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-1">
+          <li>Hino 304 - Sossegai</li>
+          <li>Hino 400 - Mais perto quero estar</li>
+          <li>Hino 39 - Bem-aventurança</li>
+          <li>Hino 225 - Segura na mão de Deus</li>
+        </ul>
+      </div>
+
+      <div ">
+        <button onclick="openLessonVideoModal('songs')"
+          class="px-6 py-2 bg-accent text-white rounded-lg hover:bg-accent/90">
+          📹 Solicitar Vídeo
+        </button>
+      </div>
+    </div>
+  `
                 }
+
             };
 
             const lesson = lessons[lessonType];
@@ -529,8 +566,26 @@
                     title: 'Tempo de Ritimo',
                     url: 'https://www.youtube.com/embed/QKf4PfNHA8g'
                 }
+            ], songs: [
+                {
+                    title: 'Hino 304 - Sossegai',
+                    url: 'https://www.youtube.com/embed/bCbQ2lBnKJw'
+                },
+                {
+                    title: 'Hino 400 - Mais perto quero estar',
+                    url: 'https://www.youtube.com/embed/LMQSPUWVM1E'
+                },
+                {
+                    title: 'Hino 39 - Bem-aventurança',
+                    url: 'https://www.youtube.com/embed/9j2gulR0C6A'
+                },
+                {
+                    title: 'Hino 225 - Segura na mão de Deus',
+                    url: 'https://www.youtube.com/embed/Zh3GctzxHIc'
+                }
             ]
         };
+
         function openLessonVideoModal(lessonKey) {
             const modal = document.getElementById('videoModal');
             const videoList = document.getElementById('videoList');
